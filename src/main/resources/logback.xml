@@ -1,0 +1,33 @@
+<configuration debug="false" scan="false">
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
+    
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <charset>UTF-8</charset>
+            <pattern>
+                %highlight(%-5level) %yellow(%d{yyyy-MM-dd HH:mm:ss}) %magenta(%logger{36}) - %msg%n%red(%throwable)
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/crawler-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %thread %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Disabled loggers -->
+    <logger name="org.eclipse.jetty" level="OFF" />
+    <logger name="io.javalin.Javalin" level="OFF" />
+    <logger name="com.zaxxer.hikari" level="OFF" />
+
+    <root level="debug">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="ROLLING_FILE" />
+    </root>
+</configuration>
